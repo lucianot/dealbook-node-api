@@ -1,0 +1,18 @@
+{
+  "name": "dealbook-node-api",
+  "version": "0.1.0",
+  "description": "Brazil Dealbook API using Node.js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Luciano Tavares",
+  "license": "MIT"
+}
