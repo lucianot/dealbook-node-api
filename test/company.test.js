@@ -8,7 +8,6 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 var utils = require('./utils');
 var Company = require('./../models/Company');
-// mongoose.connect('mongodb://localhost/dealbook-node-api_test');
 
 describe('Company', function() {
   it('must have a name', function(done) {
@@ -21,7 +20,7 @@ describe('Company', function() {
 
   it('throws error if has no name', function(done) {
     Company.create({}, function(err, company) {
-      expect(err).not.to.be.null;
+      expect(err.errors.name.message).to.eql('Path `name` is required.');
       done();
     });
   });
