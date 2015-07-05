@@ -1,9 +1,10 @@
+'use strict';
+
 var sinon = require('sinon');
 var expect = require('chai').expect;
-
-var mongoose = require('mongoose');
-var Company = require('./../models/Company.js');
-mongoose.connect('mongodb://localhost/dealbook-node-api_test');
+var utils = require('./utils');
+var Company = require('./../models/Company');
+// mongoose.connect('mongodb://localhost/dealbook-node-api_test');
 
 describe('Company', function() {
   it('must have a name', function(done) {
