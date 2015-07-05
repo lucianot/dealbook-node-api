@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 
 var mongoose = require('mongoose');
 var Company = require('./../models/Company.js');
-mongoose.connect('mongodb://localhost/dealbook-node-api');
+mongoose.connect('mongodb://localhost/dealbook-node-api_test');
 
 describe('Company', function() {
   it('must have a name', function(done) {
