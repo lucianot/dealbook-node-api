@@ -1,3 +1,7 @@
+/**
+ * Company model spec
+ */
+
 'use strict';
 
 var sinon = require('sinon');
