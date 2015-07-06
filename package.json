@@ -2,7 +2,7 @@
   "name": "dealbook-node-api",
   "version": "0.1.0",
   "description": "Brazil Dealbook API using Node.js",
-  "main": "index.js",
+  "main": "server.js",
   "directories": {
     "test": "test"
   },

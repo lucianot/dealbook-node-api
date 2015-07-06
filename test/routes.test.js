@@ -8,7 +8,7 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 var request = require('supertest');
 var mongoose = require('mongoose');
-var app = require('./../index');
+var app = require('./../app');
 var utils = require('./utils');
 var Company = require('./../models/Company');
 
