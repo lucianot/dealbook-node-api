@@ -6,8 +6,8 @@
 
 var sinon = require('sinon');
 var expect = require('chai').expect;
-var utils = require('./utils');
-var Company = require('./../models/Company');
+var utils = require('./../utils');
+var Company = require('./../../models/Company');
 
 describe('Company', function() {
   it('must have a name', function(done) {
