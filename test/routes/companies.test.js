@@ -1,5 +1,5 @@
 /**
- * Routes spec
+ * Companies routes spec
  */
 
 'use strict';
