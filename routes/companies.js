@@ -24,9 +24,7 @@ var companies = {
       if (company) {
         res.json(company);
       } else {
-        res
-          .status(404)
-          .send('Not found!');
+        res.status(404).send('Not found!');
       }
     });
   },

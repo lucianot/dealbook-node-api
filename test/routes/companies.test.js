@@ -14,7 +14,7 @@ var Company = require('./../../models/Company');
 
 app.listen(1234);
 
-describe('routes', function() {
+describe('companies routes', function() {
   var url = 'localhost:1234';
 
   describe('GET /companies', function() {

@@ -7,14 +7,14 @@
 var express = require('express');
 var router = express.Router();
 
-// var auth = require('./auth.js');
+var auth = require('./auth');
 var companies = require('./companies');
 // var user = require('./users.js');
 
 /*
  * Routes that can be accessed by any one
  */
-// router.post('/login', auth.login);
+router.post('/login', auth.login);
 
 /*
  * Routes that can be accessed only by autheticated users
