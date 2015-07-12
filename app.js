@@ -10,9 +10,12 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-var config = require('./config');
 var mongoose = require('mongoose');
+
+var config = require('./config');
 var routes = require('./routes/index');
+var validateRequest = require('./middlewares/validateRequest');
+
 var app = express();
 
 mongoose.connect(config.db[app.get('env')], function(err) {
@@ -47,7 +50,7 @@ app.set('view engine', 'html');
 // // Only the requests that start with /api/v1/* will be checked for the token.
 // // Any URL's that do not follow the below pattern should be avoided unless you
 // // are sure that authentication is not needed
-// app.all('/api/v1/*', [require('./middlewares/validateRequest')]);
+app.all('/api/v1/*', [require('./middlewares/validateRequest')]);
 
 app.use('/', routes);
 

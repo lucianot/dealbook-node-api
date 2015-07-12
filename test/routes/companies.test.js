@@ -4,24 +4,43 @@
 
 'use strict';
 
-var sinon = require('sinon');
+// var sinon = require('sinon');
 var expect = require('chai').expect;
 var request = require('supertest');
 var mongoose = require('mongoose');
 var app = require('./../../app');
 var utils = require('./../utils');
 var Company = require('./../../models/Company');
+var User = require('./../../models/User');
 
 app.listen(1234);
 
 describe('companies routes', function() {
-  var url = 'localhost:1234';
+  var url = 'localhost:1234',
+      user = {
+        email: 'user@dealbook.co',
+        password: 'letmein'
+      },
+      token = null;
+
+  beforeEach(function(done) {
+    User.create(user);
+
+    request(url)
+      .post('/login')
+      .send(user)
+      .end(function(err, res) {
+        token = res.body;
+        done();
+      });
+  });
 
   describe('GET /companies', function() {
     it('returns all companies', function(done) {
       Company.create({ name: 'Magnetis' }, function(err, companies) {
         request(url)
           .get('/api/v1/companies')
+          .set('x-access-token', token.token)
           .end(function(err, res) {
             expect(res.status).to.eql(200);
             expect(res.body.length).to.eql(1);
@@ -34,8 +53,18 @@ describe('companies routes', function() {
     it('returns empty array when no companies', function(done) {
       request(url)
         .get('/api/v1/companies')
+        .set('x-access-token', token.token)
         .expect(200)
         .expect([], done);
+    });
+
+    it('returns error if no token is sent', function(done) {
+      Company.create({ name: 'Magnetis' }, function(err, companies) {
+        request(url)
+          .get('/api/v1/companies')
+          .expect(401)
+          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+      });
     });
   });
 
@@ -44,6 +73,7 @@ describe('companies routes', function() {
       Company.create({ name: 'Magnetis' }, function(err, company) {
         request(url)
           .get('/api/v1/company/'+ company._id)
+          .set('x-access-token', token.token)
           .end(function(err, res) {
             expect(res.status).to.eql(200);
             expect(res.body.name).to.eql('Magnetis');
@@ -57,8 +87,18 @@ describe('companies routes', function() {
 
       request(url)
         .get('/api/v1/company/' + id)
+        .set('x-access-token', token.token)
         .expect(404)
         .expect('Not found!', done);
+    });
+
+    it('returns error if no token is sent', function(done) {
+      Company.create({ name: 'Magnetis' }, function(err, company) {
+        request(url)
+          .get('/api/v1/company/'+ company._id)
+          .expect(401)
+          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+      });
     });
   });
 
@@ -70,6 +110,7 @@ describe('companies routes', function() {
 
       request(url)
         .post('/api/v1/companies/')
+        .set('x-access-token', token.token)
         .send(params)
         .end(function(err, res) {
           expect(res.status).to.eql(200);
@@ -81,12 +122,20 @@ describe('companies routes', function() {
     it('returns error message when company not created', function(done) {
       request(url)
         .post('/api/v1/companies/')
+        .set('x-access-token', token.token)
         .send({})
         .end(function(err, res) {
           expect(res.status).to.eql(400);
           expect(res.body.message).to.eql('Company validation failed');
           done();
         });
+    });
+
+    it('returns error if no token is sent', function(done) {
+      request(url)
+        .post('/api/v1/companies/')
+        .expect(401)
+        .expect({ status: 401, message: 'Invalid Token or Key' }, done);
     });
   });
 
@@ -97,6 +146,7 @@ describe('companies routes', function() {
       Company.create({ name: 'Magnetis' }, function(err, company) {
         request(url)
           .put('/api/v1/company/'+ company._id)
+          .set('x-access-token', token.token)
           .send(newParams)
           .end(function(err, res) {
             expect(res.status).to.eql(200)
@@ -112,6 +162,7 @@ describe('companies routes', function() {
       Company.create({ name: 'Magnetis' }, function(err, company) {
         request(url)
           .put('/api/v1/company/'+ company._id)
+          .set('x-access-token', token.token)
           .send(newParams)
           .end(function(err, res) {
             expect(res.status).to.eql(400);
@@ -127,17 +178,30 @@ describe('companies routes', function() {
 
       request(url)
         .put('/api/v1/company/' + id)
+        .set('x-access-token', token.token)
         .send(newParams)
         .expect(404)
         .expect('Not found!', done);
     });
+
+    it('returns error if no token is sent', function(done) {
+      var newParams = { name: 'ContaAzul' };
+
+      Company.create({ name: 'Magnetis' }, function(err, company) {
+        request(url)
+          .put('/api/v1/company/'+ company._id)
+          .expect(401)
+          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+      });
+    });
   });
 
   describe('DELETE /company/:id', function() {
-    it('updates a company', function(done) {
+    it('deletes a company', function(done) {
       Company.create({ name: 'Magnetis' }, function(err, company) {
         request(url)
           .delete('/api/v1/company/'+ company._id)
+          .set('x-access-token', token.token)
           .expect(200)
           .expect('Company deleted', done);
       });
@@ -148,8 +212,18 @@ describe('companies routes', function() {
 
       request(url)
         .delete('/api/v1/company/' + id)
+        .set('x-access-token', token.token)
         .expect(404)
         .expect('Not found!', done);
+    });
+
+    it('returns error if no token is sent', function(done) {
+      Company.create({ name: 'Magnetis' }, function(err, company) {
+        request(url)
+          .delete('/api/v1/company/'+ company._id)
+          .expect(401)
+          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+      });
     });
   });
 });
