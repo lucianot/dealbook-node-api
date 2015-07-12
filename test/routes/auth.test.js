@@ -14,7 +14,7 @@ var User = require('./../../models/User');
 
 app.listen(1234);
 
-describe('authentication routes', function() {
+describe('login routes', function() {
   var url = 'localhost:1234';
 
   describe('POST /login', function() {

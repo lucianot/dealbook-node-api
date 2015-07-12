@@ -4,7 +4,6 @@
 
 'use strict';
 
-// var sinon = require('sinon');
 var expect = require('chai').expect;
 var request = require('supertest');
 var mongoose = require('mongoose');
@@ -56,15 +55,6 @@ describe('companies routes', function() {
         .set('x-access-token', token.token)
         .expect(200)
         .expect([], done);
-    });
-
-    it('returns error if no token is sent', function(done) {
-      Company.create({ name: 'Magnetis' }, function(err, companies) {
-        request(url)
-          .get('/api/v1/companies')
-          .expect(401)
-          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
-      });
     });
   });
 

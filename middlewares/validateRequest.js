@@ -30,7 +30,6 @@ module.exports = function(req, res, next) {
           status: 400,
           message: 'Token Expired'
         });
-        console.log('Token expired');
         return;
       }
 
@@ -62,6 +61,7 @@ module.exports = function(req, res, next) {
       // }
 
     } catch (err) {
+      // If token is invalid, respond back with 500
       res.status(500);
       res.json({
         status: 500,
