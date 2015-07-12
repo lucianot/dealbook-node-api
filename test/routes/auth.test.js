@@ -4,7 +4,6 @@
 
 'use strict';
 
-// var sinon = require('sinon');
 var expect = require('chai').expect;
 var request = require('supertest');
 var mongoose = require('mongoose');

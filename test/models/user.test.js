@@ -4,7 +4,6 @@
 
 'use strict';
 
-var sinon = require('sinon');
 var expect = require('chai').expect;
 var utils = require('./../utils');
 var User = require('./../../models/User');

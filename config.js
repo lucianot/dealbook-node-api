@@ -3,5 +3,6 @@ module.exports = {
     production: "mongodb://user:lucianomt@gmail.com:1234/dealbook_prod",
     development: "mongodb://localhost/dealbook_dev",
     test: "mongodb://localhost/dealbook_test",
-  }
+  },
+  secret: 'please.dont.tell.anyone'
 };

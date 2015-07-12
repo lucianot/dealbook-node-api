@@ -5,7 +5,7 @@
 'use strict';
 
 var jwt = require('jwt-simple');
-var secret =  require('../config/secret');
+var secret =  require('../config').secret;
 var User = require('./../models/User');
 
 var auth = {
@@ -64,7 +64,7 @@ function generateToken(user) {
   var expires = expiresIn(7); // 7 days
   var token = jwt.encode({
     exp: expires
-  }, secret());
+  }, secret);
 
   return {
     token: token,

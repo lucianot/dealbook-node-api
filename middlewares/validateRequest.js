@@ -5,7 +5,7 @@
 'use strict';
 
 var jwt = require('jwt-simple');
-var secret = require('../config/secret.js');
+var secret = require('../config').secret;
 // var validateUser = require('../routes/auth').validateUser;
 
 module.exports = function(req, res, next) {
@@ -22,7 +22,7 @@ module.exports = function(req, res, next) {
 
   if (token || key) {
     try {
-      var decoded = jwt.decode(token, secret());
+      var decoded = jwt.decode(token, secret);
 
       if (decoded.exp <= Date.now()) {
         res.status(400);
