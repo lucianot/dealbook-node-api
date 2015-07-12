@@ -14,6 +14,9 @@ var companies = require('./companies');
 /*
  * Routes that can be accessed by anyone
  */
+router.get('/', function(req, res) {
+    res.send('Hello! Welcome to the Dealbook API!');
+});
 router.post('/login', auth.login);
 
 /*

@@ -78,8 +78,12 @@ describe('companies routes', function() {
       request(url)
         .get('/api/v1/company/' + id)
         .set('x-access-token', token.token)
-        .expect(404)
-        .expect('Not found!', done);
+        .end(function(err, res) {
+          expect(res.status).to.eql(404);
+          expect(res.body.status).to.eql(404);
+          expect(res.body.message).to.eql('Not found');
+          done();
+        });
     });
 
     it('returns error if no token is sent', function(done) {
@@ -87,7 +91,7 @@ describe('companies routes', function() {
         request(url)
           .get('/api/v1/company/'+ company._id)
           .expect(401)
-          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+          .expect({ status: 401, message: 'Authentication failed' }, done);
       });
     });
   });
@@ -116,6 +120,7 @@ describe('companies routes', function() {
         .send({})
         .end(function(err, res) {
           expect(res.status).to.eql(400);
+          expect(res.body.status).to.eql(400);
           expect(res.body.message).to.eql('Company validation failed');
           done();
         });
@@ -125,7 +130,7 @@ describe('companies routes', function() {
       request(url)
         .post('/api/v1/companies/')
         .expect(401)
-        .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+        .expect({ status: 401, message: 'Authentication failed' }, done);
     });
   });
 
@@ -156,6 +161,7 @@ describe('companies routes', function() {
           .send(newParams)
           .end(function(err, res) {
             expect(res.status).to.eql(400);
+            expect(res.body.status).to.eql(400);
             expect(res.body.message).to.eql('Validation failed');
             done();
           });
@@ -170,8 +176,12 @@ describe('companies routes', function() {
         .put('/api/v1/company/' + id)
         .set('x-access-token', token.token)
         .send(newParams)
-        .expect(404)
-        .expect('Not found!', done);
+        .end(function(err, res) {
+          expect(res.status).to.eql(404);
+          expect(res.body.status).to.eql(404);
+          expect(res.body.message).to.eql('Not found');
+          done();
+        });
     });
 
     it('returns error if no token is sent', function(done) {
@@ -181,7 +191,7 @@ describe('companies routes', function() {
         request(url)
           .put('/api/v1/company/'+ company._id)
           .expect(401)
-          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+          .expect({ status: 401, message: 'Authentication failed' }, done);
       });
     });
   });
@@ -192,8 +202,11 @@ describe('companies routes', function() {
         request(url)
           .delete('/api/v1/company/'+ company._id)
           .set('x-access-token', token.token)
-          .expect(200)
-          .expect('Company deleted', done);
+          .end(function(err, res) {
+            expect(res.status).to.eql(200);
+            expect(res.body.message).to.eql('Company deleted');
+            done();
+          });
       });
     });
 
@@ -203,8 +216,12 @@ describe('companies routes', function() {
       request(url)
         .delete('/api/v1/company/' + id)
         .set('x-access-token', token.token)
-        .expect(404)
-        .expect('Not found!', done);
+        .end(function(err, res) {
+          expect(res.status).to.eql(404);
+          expect(res.body.status).to.eql(404);
+          expect(res.body.message).to.eql('Not found');
+          done();
+        });
     });
 
     it('returns error if no token is sent', function(done) {
@@ -212,7 +229,7 @@ describe('companies routes', function() {
         request(url)
           .delete('/api/v1/company/'+ company._id)
           .expect(401)
-          .expect({ status: 401, message: 'Invalid Token or Key' }, done);
+          .expect({ status: 401, message: 'Authentication failed' }, done);
       });
     });
   });

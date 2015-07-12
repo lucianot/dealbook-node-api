@@ -53,7 +53,7 @@ describe('validateRequest', function() {
         .end(function(err, res) {
           expect(res.status).to.eql(401);
           expect(res.body.status).to.eql(401);
-          expect(res.body.message).to.eql('Invalid Token or Key');
+          expect(res.body.message).to.eql('Authentication failed');
           done();
         });
     });
@@ -65,9 +65,9 @@ describe('validateRequest', function() {
         .get('/api/v1/companies')
         .set('x-access-token', invalidToken)
         .end(function(err, res) {
-          expect(res.status).to.eql(500);
-          expect(res.body.status).to.eql(500);
-          expect(res.body.message).to.eql('Oops something went wrong');
+          expect(res.status).to.eql(401);
+          expect(res.body.status).to.eql(401);
+          expect(res.body.message).to.eql('Authentication failed');
           done();
         });
     });

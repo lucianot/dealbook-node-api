@@ -7,6 +7,7 @@
 // Base setup
 
 var express = require('express');
+var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
@@ -16,20 +17,20 @@ var config = require('./config');
 var routes = require('./routes/index');
 var validateRequest = require('./middlewares/validateRequest');
 
-var app = express();
+// Configuration
 
 mongoose.connect(config.db[app.get('env')], function(err) {
-  if(err) {
+  if (err) {
     console.log('connection error', err);
   } else {
     console.log('connection successful');
   }
 });
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 // app.use(logger('dev'));
-app.set('view engine', 'html');
+// app.set('view engine', 'html');
 
 // API Routes
 
@@ -46,11 +47,11 @@ app.set('view engine', 'html');
 //   }
 // });
 
-// // Auth Middleware - This will check if the token is valid
-// // Only the requests that start with /api/v1/* will be checked for the token.
-// // Any URL's that do not follow the below pattern should be avoided unless you
-// // are sure that authentication is not needed
-app.all('/api/v1/*', [require('./middlewares/validateRequest')]);
+// Auth Middleware - This will check if the token is valid
+// Only the requests that start with /api/v1/* will be checked for the token.
+// Any URL's that do not follow the below pattern should be avoided unless you
+// are sure that authentication is not needed.
+app.all('/api/v1/*', [validateRequest]);
 
 app.use('/', routes);
 

@@ -15,11 +15,6 @@ var auth = {
     var email = req.body.email || '';
     var password = req.body.password || '';
 
-    if (email == '' || password == '') {
-      res.status(401).send('Invalid credentials');
-      return;
-    }
-
     // Fire a query to your DB and check if the credentials are valid
     User.findOne({
       email: email,
@@ -33,19 +28,14 @@ var auth = {
 
       } else {
         // If authentication fails, we send a 401 back
-        res.status(401).send('Invalid credentials');
+        res.status(401);
+        res.json({
+          status: 401,
+          message: 'Invalid credentials',
+        });
       }
     });
   }
-
-  // validate: function(email, password) {
-  //   var user = User.findOne({
-  //     email: email,
-  //     password: password
-  //   });
-  //   console.log('user', user);
-  //   return user;
-  // },
 
   // validateUser: function(username) {
   //   // spoofing the DB response for simplicity
@@ -61,9 +51,9 @@ var auth = {
 
 // private method
 function generateToken(user) {
-  var expires = expiresIn(7); // 7 days
+  var expires = expiresIn(1); // 7 days
   var token = jwt.encode({
-    exp: expires
+    expires: expires
   }, secret);
 
   return {

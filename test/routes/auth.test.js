@@ -43,8 +43,12 @@ describe('login routes', function() {
       request(url)
         .post('/login')
         .send(user)
-        .expect(401)
-        .expect('Invalid credentials', done);
+        .end(function(err, res) {
+          expect(res.status).to.eql(401);
+          expect(res.body.status).to.eql(401);
+          expect(res.body.message).to.eql('Invalid credentials');
+          done();
+        });
     });
 
     it('returns error when password is empty', function(done) {
@@ -56,8 +60,12 @@ describe('login routes', function() {
       request(url)
         .post('/login')
         .send(user)
-        .expect(401)
-        .expect('Invalid credentials', done);
+        .end(function(err, res) {
+          expect(res.status).to.eql(401);
+          expect(res.body.status).to.eql(401);
+          expect(res.body.message).to.eql('Invalid credentials');
+          done();
+        });
     });
   });
 });
